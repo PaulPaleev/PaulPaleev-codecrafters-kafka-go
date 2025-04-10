@@ -27,7 +27,7 @@ func main() {
 }
 
 func handleRequest(conn net.Conn) {
-	defer conn.Close()
+	//defer conn.Close()
 	req := make([]byte, 1024)
 	conn.Read(req)
 	ver := binary.BigEndian.Uint16(req[6:8])
