@@ -28,6 +28,7 @@ func handleRequest(conn net.Conn) {
 	req := make([]byte, 1024)
 	conn.Read(req)
 	ver := binary.BigEndian.Uint16(req[6:8])
+	fmt.Println(ver)
 	var version_error []byte
 	switch ver {
 	case 0, 1, 2, 3, 4:
