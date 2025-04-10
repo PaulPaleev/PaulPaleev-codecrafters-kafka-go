@@ -49,5 +49,6 @@ func handleRequest(conn net.Conn) {
 	binary.BigEndian.PutUint32(response[14:], 0) // throttle time
 	response[18] = 0
 
+	fmt.Println(response)
 	conn.Write(response)
 }
