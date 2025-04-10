@@ -35,11 +35,10 @@ func handleRequest(conn net.Conn) {
 	default:
 		version_error = []byte{0, 35}
 	}
-	fmt.Println(version_error)
 	response := make([]byte, 19)
 	//copy(response[:4], req[8:12])     // correlation_id param - 4 bytes
-	copy(response[:4], req[:4])             // DONE message_size param - 4 bytes
-	copy(response[4:], version_error)       // DONE error_code (represents no error in this case) - 2 bytes
+	//copy(response[:4], req[:4])             // message_size param - 4 bytes
+	copy(response[4:], version_error)       // error_code (represents no error in this case) - 2 bytes
 	response[6] = 2                         // Number of API keys - 1 byte
 	copy(response[7:], []byte{0, 18})       // API Key api_version - 2 bytes
 	copy(response[9:], []byte{0, 3})        // min version - 2 bytes
