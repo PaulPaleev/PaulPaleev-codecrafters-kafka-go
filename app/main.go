@@ -28,19 +28,20 @@ func main() {
 
 func handleRequest(conn net.Conn) {
 	defer conn.Close()
-	req := make([]byte, 1024)
-	conn.Read(req)
-	ver := binary.BigEndian.Uint16(req[6:8])
-	var version_error []byte
-	switch ver {
-	case 0, 1, 2, 3, 4:
-		version_error = []byte{0, 0}
-	default:
-		version_error = []byte{0, 35}
-	}
+
 	run := true
 
 	for run {
+		req := make([]byte, 1024)
+		conn.Read(req)
+		ver := binary.BigEndian.Uint16(req[6:8])
+		var version_error []byte
+		switch ver {
+		case 0, 1, 2, 3, 4:
+			version_error = []byte{0, 0}
+		default:
+			version_error = []byte{0, 35}
+		}
 		/*
 			no need to check message_size like before copy(response[:4], req[:4])
 			simple count our response size instead
