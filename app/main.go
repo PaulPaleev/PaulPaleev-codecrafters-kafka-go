@@ -35,9 +35,13 @@ func handleRequest(conn net.Conn) {
 	default:
 		version_error = []byte{0, 35}
 	}
-	response := make([]byte, 19)
+	/*
+		no need to check message_size like before copy(response[:4], req[:4])
+		simple count our response size instead
+	*/
 	conn.Write([]byte{0, 0, 0, 19})
-	//copy(response[], req[:4])                 // message_size param - 4 bytes
+
+	response := make([]byte, 19)
 	copy(response[:4], req[8:12])           // correlation_id param - 4 bytes
 	copy(response[4:], version_error)       // error_code (represents no error in this case) - 2 bytes
 	response[6] = 2                         // Number of API keys - 1 byte
@@ -48,6 +52,5 @@ func handleRequest(conn net.Conn) {
 	copy(response[14:], []byte{0, 0, 0, 0}) // throttle time - 4 bytes
 	response[18] = 0                        // 1 byte
 
-	fmt.Println(response)
 	conn.Write(response)
 }
