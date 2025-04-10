@@ -28,7 +28,7 @@ func main() {
 }
 
 func handleRequest(conn net.Conn) {
-	defer conn.Close()
+	//defer conn.Close()
 
 	//run := true
 
