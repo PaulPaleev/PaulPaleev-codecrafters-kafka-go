@@ -26,7 +26,6 @@ func handleRequest(conn net.Conn) {
 	defer conn.Close()
 	req := make([]byte, 1024)
 	conn.Read(req)
-	fmt.Println("req: ", req)
 
 	response := make([]byte, 19)
 	copy(response, req[0:4])       // message_size param
