@@ -20,9 +20,25 @@ func main() {
 		os.Exit(1)
 	}
 
-	//var message_size int32 = 2
 	//var correlation_id in32 = 7
-	//defer conn.Close()
+	handleRequest(conn)
+}
 
-	conn.Write([]byte{0, 0, 0, 0, 0, 0, 0, 7})
+func handleRequest(conn net.Conn) {
+	defer conn.Close()
+	req := make([]byte, 1024)
+	conn.Read(req)
+
+	response := make([]byte, 8)
+	copy(response, []byte{0, 0, 0, 0}) // message_size param
+	/*
+		request example:
+		so we start copy elements from 8 since it's the first element of correlation_id
+		00 00 00 23  // message_size:        35
+		00 12        // request_api_key:     18
+		00 04        // request_api_version: 4
+		6f 7f c6 61  // correlation_id:      1870644833
+	*/
+	copy(response[4:], req[8:13]) // [4:] bc we have [0:5] as message_size param
+	conn.Write(response)
 }
