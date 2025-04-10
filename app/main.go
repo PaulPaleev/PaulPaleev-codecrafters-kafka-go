@@ -38,16 +38,21 @@ func handleRequest(conn net.Conn) {
 
 	response := make([]byte, 19)
 
-	//copy(response, req[:4])                      // message_size param
-	copy(response[:5], req[8:12])                // correlation_id param
-	copy(response[4:], version_error)            // error_code (represents no error in this case)
-	response[6] = 2                              // Number of API keys
-	copy(response[7:], req[6:8])                 // api_version
-	binary.BigEndian.PutUint16(response[9:], 3)  // min version
-	binary.BigEndian.PutUint16(response[11:], 4) // max version
-	response[13] = 0                             // _tagged_fields
-	binary.BigEndian.PutUint32(response[14:], 0) // throttle time
-	response[18] = 0
+	//copy(response, req[:4])           // message_size param - 4 bytes
+	copy(response[:4], req[8:12])     // correlation_id param - 4 bytes
+	copy(response[4:], version_error) // error_code (represents no error in this case) - 2 bytes
+	response[6] = 2                   // Number of API keys - 1 byte
+	copy(response[7:], req[6:8])      // api_version - 2 bytes
+	copy(response[9:], []byte{0, 3})  // min version - 2 bytes
+	//binary.BigEndian.PutUint16(response[9:], 3)  // min version
+	copy(response[11:], []byte{0, 4}) // max version - 2 bytes
+	//binary.BigEndian.PutUint16(response[11:], 4) // max version
+
+	response[13] = 0 // _tagged_fields - 1 byte
+	//binary.BigEndian.PutUint32(response[14:], 0) // throttle time - 1 byte
+
+	copy(response[14:], []byte{0, 0, 0, 0}) // throttle time - 4 bytes
+	response[18] = 0                        // 1 byte
 
 	fmt.Println(response)
 	conn.Write(response)
