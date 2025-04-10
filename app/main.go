@@ -39,7 +39,7 @@ func handleRequest(conn net.Conn) {
 	response := make([]byte, 19)
 
 	//copy(response, req[:4])                      // message_size param
-	copy(response[:4], req[8:12])                // correlation_id param
+	copy(response[:5], req[8:12])                // correlation_id param
 	copy(response[4:], version_error)            // error_code (represents no error in this case)
 	response[6] = 2                              // Number of API keys
 	copy(response[7:], req[6:8])                 // api_version
