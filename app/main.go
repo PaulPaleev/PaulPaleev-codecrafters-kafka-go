@@ -49,7 +49,7 @@ func handleRequest(conn net.Conn) {
 		response := make([]byte, 19)
 		copy(response[:4], req[8:12])           // correlation_id param - 4 bytes
 		copy(response[4:], version_error)       // error_code (represents no error in this case) - 2 bytes
-		response[6] = 1                         // Number of API keys - 1 byte
+		response[6] = 2                         // Number of API keys - 1 byte
 		copy(response[7:], []byte{0, 1})        // API Key api_version - 2 bytes
 		copy(response[9:], []byte{0, 3})        // min version - 2 bytes
 		copy(response[11:], []byte{0, 16})      // max version - 2 bytes
