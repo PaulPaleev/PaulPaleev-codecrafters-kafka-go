@@ -52,7 +52,7 @@ func handleRequest(conn net.Conn) {
 		response[6] = 2                         // Number of API keys - 1 byte
 		copy(response[7:], []byte{0, 18})       // API Key api_version - 2 bytes
 		copy(response[9:], []byte{0, 3})        // min version - 2 bytes
-		copy(response[11:], []byte{0, 4})       // max version - 2 bytes
+		copy(response[11:], []byte{0, 16})      // max version - 2 bytes
 		response[13] = 0                        // _tagged_fields - 1 byte
 		copy(response[14:], []byte{0, 0, 0, 0}) // throttle time - 4 bytes
 		response[18] = 0                        // 1 byte
