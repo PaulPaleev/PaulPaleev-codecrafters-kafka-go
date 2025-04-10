@@ -28,7 +28,6 @@ func handleRequest(conn net.Conn) {
 	req := make([]byte, 1024)
 	conn.Read(req)
 	ver := binary.BigEndian.Uint16(req[6:8])
-	fmt.Println(ver)
 	var version_error []byte
 	switch ver {
 	case 0, 1, 2, 3, 4:
@@ -36,7 +35,7 @@ func handleRequest(conn net.Conn) {
 	default:
 		version_error = []byte{0, 35}
 	}
-
+	fmt.Println(version_error)
 	response := make([]byte, 19)
 	//copy(response[:4], req[8:12])     // correlation_id param - 4 bytes
 	copy(response[:4], req[:4])             // DONE message_size param - 4 bytes
