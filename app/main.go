@@ -37,7 +37,7 @@ func handleRequest(conn net.Conn) {
 		version_error = []byte{0, 35}
 	}
 
-	response := make([]byte, 19)
+	response := make([]byte, 13)
 	copy(response, req[0:4])          // message_size param
 	copy(response, api_version)       // api_version
 	copy(response[4:8], req[8:12])    // correlation_id param
