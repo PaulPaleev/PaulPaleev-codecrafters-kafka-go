@@ -39,7 +39,7 @@ func handleRequest(conn net.Conn) {
 		00 04        // request_api_version: 4
 		6f 7f c6 61  // correlation_id:      1870644833
 	*/
-	copy(response[4:8], req[8:12])    // [4:] bc we have [0:5] as message_size param, [8:13] correlation_id param in the request
+	copy(response[4:8], req[8:12])    // [4:8] bc we have [0:4] as message_size param, [8:12] correlation_id param in the request
 	copy(response[8:], []byte{0, 35}) // error_code 35 (we have only 2 elements to fill)
 	/*
 		response example:
