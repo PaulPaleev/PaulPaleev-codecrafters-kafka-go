@@ -22,7 +22,7 @@ func main() {
 
 	//var message_size int32 = 2
 	//var correlation_id in32 = 7
-	defer conn.Close()
+	//defer conn.Close()
 
 	conn.Write([]byte{0, 0, 0, 0, 0, 0, 0, 7})
 }
