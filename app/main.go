@@ -28,9 +28,11 @@ func handleRequest(conn net.Conn) {
 	defer conn.Close()
 	req := make([]byte, 1024)
 	conn.Read(req)
+	strReq := string(req)
+	fmt.Println(strReq)
 
 	response := make([]byte, 10)
-	copy(response, []byte{0, 0, 0, 0}) // message_size param
+	copy(response, req[0:4]) // message_size param
 	/*
 		request example:
 		so we start copy elements from 8 since it's the first element of correlation_id
@@ -39,8 +41,8 @@ func handleRequest(conn net.Conn) {
 		00 04        // request_api_version: 4
 		6f 7f c6 61  // correlation_id:      1870644833
 	*/
-	copy(response[4:8], req[8:12])    // [4:8] bc we have [0:4] as message_size param, [8:12] correlation_id param in the request
-	copy(response[8:], []byte{0, 35}) // error_code 35 (we have only 2 elements to fill)
+	copy(response[4:8], req[8:12])   // [4:8] bc we have [0:4] as message_size param, [8:12] correlation_id param in the request
+	copy(response[8:], []byte{0, 0}) // error_code 35 (we have only 2 elements to fill)
 	/*
 		response example:
 		00 00 00 00  // message_size:   0 (any value works)
