@@ -33,4 +33,6 @@ func handleRequest(conn net.Conn) {
 	copy(response[4:8], req[8:12]) // correlation_id param
 	copy(response[8:], []byte{})   // error_code (represents no error in this case)
 	conn.Write(response)
+	ret_key := []byte{2, 0, 18, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0}
+	conn.Write(ret_key)
 }
