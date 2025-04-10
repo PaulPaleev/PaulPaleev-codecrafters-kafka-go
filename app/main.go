@@ -36,8 +36,9 @@ func handleRequest(conn net.Conn) {
 		version_error = []byte{0, 35}
 	}
 	response := make([]byte, 19)
-	copy(response, req[:4])                 // message_size param - 4 bytes
-	copy(response, req[8:12])               // correlation_id param - 4 bytes
+	conn.Write([]byte{0, 0, 0, 19})
+	//copy(response[], req[:4])                 // message_size param - 4 bytes
+	copy(response[:4], req[8:12])           // correlation_id param - 4 bytes
 	copy(response[4:], version_error)       // error_code (represents no error in this case) - 2 bytes
 	response[6] = 2                         // Number of API keys - 1 byte
 	copy(response[7:], []byte{0, 18})       // API Key api_version - 2 bytes
